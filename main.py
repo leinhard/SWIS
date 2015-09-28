@@ -75,12 +75,21 @@ def samplecode(npm_server,username,password):
 
 def unmanage_an_interface():
 	swis = SwisClient("54.65.132.126", "admin", "")
-	results = swis.query("SELECT TOP 1 NodeID FROM Orion.Nodes")
+	results = swis.query("SELECT TOP 1 NodeID FROM Orion.Nodes where nodeid=2")
 	interfaceId = results["results"][0]["NodeID"]
 	netObjectId = "N:{}".format(interfaceId)
 	now = datetime.utcnow()
 	tomorrow = now + timedelta(days=1)
 	swis.invoke("Orion.Nodes", "Unmanage", netObjectId, now, tomorrow, False)
+
+def remanage_an_interface():
+	swis = SwisClient("54.65.132.126", "admin", "")
+	results = swis.query("SELECT TOP 1 NodeID FROM Orion.Nodes where nodeid=2")
+	interfaceId = results["results"][0]["NodeID"]
+	netObjectId = "N:{}".format(interfaceId)
+	now = datetime.utcnow()
+	tomorrow = now + timedelta(days=1)
+	swis.invoke("Orion.Nodes", "remanage", netObjectId, now, tomorrow, False)
 
 def main():
 	#try: input = raw_input  # Fix Python 2.x
@@ -92,5 +101,6 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+	#main()
 	#unmanage_an_interface()
+	remanage_an_interface()
